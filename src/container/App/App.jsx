@@ -25,11 +25,9 @@ class App extends React.Component {
       })
     })
     socket.on('broadcast', (data) => {
-      const newStorage = this.state.storage
-      newStorage.push(data);
       this.setState({
-        storage: newStorage
-      })
+        storage: this.state.storage.concat(data)
+      });
     })
     socket.on('err', (msg) => {
       alert(msg);
