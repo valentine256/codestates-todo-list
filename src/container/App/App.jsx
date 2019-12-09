@@ -43,7 +43,7 @@ class App extends React.Component {
   }
 
   clickAlert() {
-    alert(`App's state: ${JSON.stringify(this.state.data)}`);
+    alert(`App's state: ${JSON.stringify(this.state)}`);
   }
 
   messageList() {
