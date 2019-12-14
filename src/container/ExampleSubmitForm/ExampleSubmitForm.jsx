@@ -18,6 +18,7 @@ class ExampleSubmitForm extends React.Component {
       name: '',
       message: ''
     })
+    //TODO:
     document.getElementById('name').value = '';
     document.getElementById('message').value = '';
   }
@@ -28,13 +29,13 @@ class ExampleSubmitForm extends React.Component {
 
     switch(id) {
       case'name':
-        this.setState({name: value});
+        this.setState({ name: value });
         break;
       case'message':
         this.setState({message: value});
         break;
     }
-    console.log(`${id}: ${value}`)
+    console.log(`${this.state.name}: ${this.state.message}`)
   }
 
   clickAlert() {
@@ -50,8 +51,8 @@ class ExampleSubmitForm extends React.Component {
   render() {
     return (
       <div>
-        <ExampleInput onChange={(event) => this.inputChange(event)} inputText='Name!!' inputId='name'/>
-        <ExampleInput onChange={(event) => this.inputChange(event)} inputText='Message!!' inputId='message'/>
+        <ExampleInput onChangeHandler={(event) => this.inputChange(event)} inputText='Name!!' inputId='name'/>
+        <ExampleInput onChangeHandler={(event) => this.inputChange(event)} inputText='Message!!' inputId='message'/>
         <ExampleButton click={() => this.clickAlert()} buttonName="ExampleSubmitForm's state?"/>
         <ExampleButton  click={() => this.submitMessage()} buttonName="emit message to server(socket)"/>
       </div>

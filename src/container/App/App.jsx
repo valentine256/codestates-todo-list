@@ -37,15 +37,7 @@ class App extends React.Component {
   getDataBySocket() {
     socket.emit('get storage data')
   }
-
-  emitMessage(data) {
-    socket.emit('broadcast req', (data))
-  }
-
-  clickAlert() {
-    alert(`App's state: ${JSON.stringify(this.state)}`);
-  }
-
+  
   messageList() {
     return (
       <div>
@@ -56,12 +48,28 @@ class App extends React.Component {
       </div>
     )
   }
+  
+  clickAlert() {
+    alert(`App's state: ${JSON.stringify(this.state)}`);
+  }
+
+  emitMessage(data) {
+    socket.emit('broadcast req', (data))
+  }
+  
+  handleButtonClick() {
+    this.clickAlert();
+  }
+
+  handleEmitMessage(data) {
+    this.emitMessage(data);
+  }
 
   render() {
     return (
       <div>
-        <ExampleButton click={() => this.clickAlert()} buttonName="App's state?"/>
-        <ExampleSubmitForm emitMessage={(data) => this.emitMessage(data)}/>
+        <ExampleButton click={() => this.handleButtonClick()} buttonName="App's state?"/>
+        <ExampleSubmitForm emitMessage={(data) => this.handleEmitMessage(data)}/>
         {this.messageList()}
       </div>
     )

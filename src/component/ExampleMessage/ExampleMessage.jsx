@@ -1,28 +1,23 @@
 import React from 'react';
 import style from './ExampleMessage.css';
 
-class ExampleMessage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const ExampleMessage = (props) => {
 
-  render() {
-    return (
-      <div className={style['msg-box']}>
-        <span>
-          Component: ExampleMessage
-        </span>
-        <div className={style['case']}>
-          <div className={style['name']}>
-            {this.props.name}
-          </div>
-          <div className={style['message']}>
-            {this.props.message}
-          </div>
+  return (
+    <div className={style['msg-box']}>
+      <span>
+        Component: ExampleMessage
+      </span>
+      <div className={style['case']}>
+        <div className={style['name']}>
+          {props.name}
+        </div>
+        <div className={style['message']}>
+          {props.message}
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default ExampleMessage;

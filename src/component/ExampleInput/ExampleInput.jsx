@@ -1,15 +1,13 @@
 import React from 'react';
 
-class ExampleInputSet extends React.Component {
+const ExampleInputSet = (props) => {
 
-  render() {
-    return (
-      <div>
-        <span>{this.props.inputText} : </span>
-        <input onChange={this.props.onChange} id={this.props.inputId}/>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <span>{props.inputText} : </span>
+      <input onChange={props.onChangeHandler} id={props.inputId}/>
+    </div>
+  )
 }
 
 export default ExampleInputSet;
