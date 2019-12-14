@@ -9,21 +9,21 @@ class ExampleSubmitForm extends React.Component {
 
     this.state = {
       name: '',
-      message: ''
+      message: '',
     }
   }
 
   resetState() {
     this.setState({
       name: '',
-      message: ''
+      message: '',
     })
     //TODO:
-    document.getElementById('name').value = '';
-    document.getElementById('message').value = '';
+    // document.getElementById('name').value = '';
+    // document.getElementById('message').value = '';
   }
 
-  inputChange(event) {
+  handleInputChange(event) {
     const id = event.target.id;
     const value = event.target.value;
 
@@ -44,15 +44,17 @@ class ExampleSubmitForm extends React.Component {
 
   submitMessage() {
     const data = this.state;
-    this.props.emitMessage(data);
+    this.props.emitMessage(data)
     this.resetState();
   }
 
   render() {
+    const { name, message } = this.state;
+
     return (
       <div>
-        <ExampleInput onChangeHandler={(event) => this.inputChange(event)} inputText='Name!!' inputId='name'/>
-        <ExampleInput onChangeHandler={(event) => this.inputChange(event)} inputText='Message!!' inputId='message'/>
+        <ExampleInput value={name} onChangeHandler={(event) => this.handleInputChange(event)} inputText='Name!!' inputId='name'/>
+        <ExampleInput value={message} onChangeHandler={(event) => this.handleInputChange(event)} inputText='Message!!' inputId='message'/>
         <ExampleButton click={() => this.clickAlert()} buttonName="ExampleSubmitForm's state?"/>
         <ExampleButton  click={() => this.submitMessage()} buttonName="emit message to server(socket)"/>
       </div>

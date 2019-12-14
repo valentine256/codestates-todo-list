@@ -1,11 +1,12 @@
 import React from 'react';
 
 const ExampleInputSet = (props) => {
-
+  const { inputText, onChangeHandler, inputId, value } = props;
+  
   return (
     <div>
-      <span>{props.inputText} : </span>
-      <input onChange={props.onChangeHandler} id={props.inputId}/>
+      <span>{inputText} : </span>
+      <input onChange={onChangeHandler} id={inputId} value={value}/>
     </div>
   )
 }

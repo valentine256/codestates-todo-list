@@ -54,7 +54,7 @@ class App extends React.Component {
   }
 
   emitMessage(data) {
-    socket.emit('broadcast req', (data))
+    socket.emit('broadcast req', (data));
   }
   
   handleButtonClick() {
