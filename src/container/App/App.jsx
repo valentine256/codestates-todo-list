@@ -19,7 +19,6 @@ class App extends React.Component {
   componentDidMount() {
     this.getDataBySocket();
     socket.on('get storage data res', (resData) => {
-      console.log('get storage data res!: ' + JSON.stringify(resData))
       this.setState({
         storage: resData
       })

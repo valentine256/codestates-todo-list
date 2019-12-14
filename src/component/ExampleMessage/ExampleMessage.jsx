@@ -5,9 +5,6 @@ const ExampleMessage = (props) => {
 
   return (
     <div className={style['msg-box']}>
-      <span>
-        Component: ExampleMessage
-      </span>
       <div className={style['case']}>
         <div className={style['name']}>
           {props.name}

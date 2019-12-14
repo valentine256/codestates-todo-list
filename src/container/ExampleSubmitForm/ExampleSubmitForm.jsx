@@ -15,12 +15,8 @@ class ExampleSubmitForm extends React.Component {
 
   resetState() {
     this.setState({
-      name: '',
       message: '',
     })
-    //TODO:
-    // document.getElementById('name').value = '';
-    // document.getElementById('message').value = '';
   }
 
   handleInputChange(event) {
@@ -35,7 +31,6 @@ class ExampleSubmitForm extends React.Component {
         this.setState({message: value});
         break;
     }
-    console.log(`${this.state.name}: ${this.state.message}`)
   }
 
   clickAlert() {
