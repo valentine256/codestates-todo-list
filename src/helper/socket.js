@@ -1,15 +1,13 @@
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
-const socketHelper = () => {
-  const socket = io('http://localhost:3000')
+// const socket = io('http://localhost:3000');
 
-  getData = (callback) => {
-    socket.on('get storage data res', (data) => {
-      callback(data);
-    })
-  }
+// export const getData = (callback) => {
+//   socket.on('get storage data res', (data) => {
+//     callback(data);
+//   });
+// };
 
-  emitData = (eventName, data) => {
-    socket.emit(eventName, data);
-  }
-}
+// export const emitData = (eventName, data) => {
+//   socket.emit(eventName, data);
+// };

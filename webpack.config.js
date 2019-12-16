@@ -32,9 +32,12 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
-    })
-  ]
+      template: './src/index.html',
+    }),
+  ],
 };

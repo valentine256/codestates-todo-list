@@ -1,79 +1,83 @@
-//@flow
+/* eslint-disable react/no-array-index-key */
+// @flow
 
 import React from 'react';
 import io from 'socket.io-client';
 
-import ExampleButton from '../../component/ExampleButton/ExampleButton.jsx'
-import ExampleSubmitForm from '../ExampleSubmitForm/ExampleSubmitForm.jsx';
-import ExampleMessage from '../../component/ExampleMessage/ExampleMessage.jsx';
+import ExampleButton from '../../component/ExampleButton/ExampleButton';
+import ExampleSubmitForm from '../ExampleSubmitForm/ExampleSubmitForm';
+import ExampleMessage from '../../component/ExampleMessage/ExampleMessage';
 
 const socket = io('http://localhost:8080');
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+type State = {
+  storage: Array<any>
+}
+
+const getDataBySocket = () => {
+  socket.emit('get storage data');
+};
+
+
+const emitMessage = (data: any) => {
+  socket.emit('broadcast req', (data));
+};
+class App extends React.Component<{}, State> {
+  constructor() {
+    super();
 
     this.state = {
-      storage: []
-    }
-  }
-  
-  componentDidMount() {
-    this.getDataBySocket();
-    socket.on('get storage data res', (resData) => {
-      this.setState({
-        storage: resData
-      })
-    })
-    socket.on('broadcast', (data) => {
-      this.setState({
-        storage: this.state.storage.concat(data)
-      });
-    })
-    socket.on('err', (msg) => {
-      alert(msg);
-    })
+      storage: [],
+    };
   }
 
-  getDataBySocket() {
-    socket.emit('get storage data')
+  componentDidMount() {
+    getDataBySocket();
+    socket.on('get storage data res', (resData) => {
+      this.setState({
+        storage: resData,
+      });
+    });
+    socket.on('broadcast', (data) => {
+      const { storage } = this.state;
+      this.setState({
+        storage: storage.concat(data),
+      });
+    });
+    socket.on('err', (msg) => {
+      alert(msg);
+    });
   }
-  
-  messageList() {
-    return (
-      <div>
-        {this.state.storage.map((item, index) => {
-          const {name, message} = item;
-          return <ExampleMessage name={name} message={message} key={index}/>
-        })}
-      </div>
-    )
-  }
-  
+
+
   clickAlert() {
     alert(`App's state: ${JSON.stringify(this.state)}`);
   }
 
-  emitMessage(data) {
-    socket.emit('broadcast req', (data));
-  }
-  
-  handleButtonClick() {
-    this.clickAlert();
+  messageList() {
+    const { storage } = this.state;
+    return (
+      <div>
+        {storage.map((item, index) => {
+          const { name, message } = item;
+          return <ExampleMessage name={name} message={message} key={index} />;
+        })}
+      </div>
+    );
   }
 
-  handleEmitMessage(data) {
-    this.emitMessage(data);
+  handleButtonClick() {
+    this.clickAlert();
   }
 
   render() {
     return (
       <div>
-        <ExampleButton click={() => this.handleButtonClick()} buttonName="App's state?"/>
-        <ExampleSubmitForm emitMessage={(data) => this.handleEmitMessage(data)}/>
+        <ExampleButton click={() => this.handleButtonClick()} buttonName="App's state?" />
+        <ExampleSubmitForm emitMessage={(data) => emitMessage(data)} />
         {this.messageList()}
       </div>
-    )
+    );
   }
 }
 

@@ -1,47 +1,58 @@
-//@flow
+// @flow
 
 import React from 'react';
 
-import ExampleButton from '../../component/ExampleButton/ExampleButton.jsx'
-import ExampleInput from '../../component/ExampleInput/ExampleInput.jsx';
+import ExampleButton from '../../component/ExampleButton/ExampleButton';
+import ExampleInput from '../../component/ExampleInput/ExampleInput';
 
-class ExampleSubmitForm extends React.Component {
-  constructor(props) {
-    super(props);
+type State = {
+  name: string;
+  message: string;
+}
+type Props = {
+  emitMessage: (data: State) => void
+}
+
+class ExampleSubmitForm extends React.Component<Props, State> {
+  constructor() {
+    super();
 
     this.state = {
       name: '',
       message: '',
-    }
+    };
   }
 
-  resetState() {
+  resetState(): void {
     this.setState({
       message: '',
-    })
+    });
   }
 
-  handleInputChange(event) {
-    const id = event.target.id;
-    const value = event.target.value;
+  handleInputChange(event: Object): void {
+    const { id, value } = event.target;
 
-    switch(id) {
-      case'name':
+    switch (id) {
+      case 'name':
         this.setState({ name: value });
         break;
-      case'message':
-        this.setState({message: value});
+      case 'message':
+        this.setState({ message: value });
         break;
+      default:
     }
   }
 
-  clickAlert() {
-    alert(`Example's state.name: ${this.state.name}, state.message: ${this.state.message}`);
+  clickAlert(): void {
+    const { name, message } = this.state;
+    alert(`Example's state.name: ${name}, state.message: ${message}`);
   }
 
-  submitMessage() {
+  submitMessage(): void {
     const data = this.state;
-    this.props.emitMessage(data);
+    const { emitMessage } = this.props;
+
+    emitMessage(data);
     this.resetState();
   }
 
@@ -50,10 +61,10 @@ class ExampleSubmitForm extends React.Component {
 
     return (
       <div>
-        <ExampleInput value={name} onChangeHandler={(event) => this.handleInputChange(event)} inputText='Name!!' inputId='name'/>
-        <ExampleInput value={message} onChangeHandler={(event) => this.handleInputChange(event)} inputText='Message!!' inputId='message'/>
-        <ExampleButton click={() => this.clickAlert()} buttonName="ExampleSubmitForm's state?"/>
-        <ExampleButton  click={() => this.submitMessage()} buttonName="emit message to server(socket)"/>
+        <ExampleInput value={name} onChangeHandler={(event) => this.handleInputChange(event)} inputText="Name!!" inputId="name" />
+        <ExampleInput value={message} onChangeHandler={(event) => this.handleInputChange(event)} inputText="Message!!" inputId="message" />
+        <ExampleButton click={() => this.clickAlert()} buttonName="ExampleSubmitForm's state?" />
+        <ExampleButton click={() => this.submitMessage()} buttonName="emit message to server(socket)" />
       </div>
     );
   }
