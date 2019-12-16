@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import ExampleButton from '../../component/ExampleButton/ExampleButton';
-import ExampleInput from '../../component/ExampleInput/ExampleInput';
+import ExampleButton from '../../components/ExampleButton/ExampleButton';
+import ExampleInput from '../../components/ExampleInput/ExampleInput';
 
 type State = {
   name: string;
