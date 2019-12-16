@@ -41,7 +41,7 @@ class ExampleSubmitForm extends React.Component {
 
   submitMessage() {
     const data = this.state;
-    this.props.emitMessage(data)
+    this.props.emitMessage(data);
     this.resetState();
   }
 
@@ -55,7 +55,7 @@ class ExampleSubmitForm extends React.Component {
         <ExampleButton click={() => this.clickAlert()} buttonName="ExampleSubmitForm's state?"/>
         <ExampleButton  click={() => this.submitMessage()} buttonName="emit message to server(socket)"/>
       </div>
-    )
+    );
   }
 }
 
