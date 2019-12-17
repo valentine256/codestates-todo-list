@@ -1,0 +1,8 @@
+.dock-bar {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 48px;
+  height: 100vh;
+  background-color: #333333;
+}
