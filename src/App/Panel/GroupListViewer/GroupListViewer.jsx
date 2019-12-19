@@ -1,12 +1,15 @@
 import React from 'react';
+import _ from 'lodash';
 
 import GroupEntry from './GroupEntry/GroupEntry';
+import { TodoEntry } from '../../../scheme/scheme';
 import type { GroupList } from '../../../scheme/scheme';
 
 type State = {
 }
 type Props = {
-  items: GroupList;
+  groupList: GroupList;
+  data: TodoEntry[];
   changeGroup: (id: number) => void;
 }
 
@@ -18,9 +21,12 @@ class GroupListViewer extends React.Component<Props, State> {
   }
 
   createGroupRendr() {
-    const { items, changeGroup } = this.props;
+    const { groupList, changeGroup, data } = this.props;
 
-    return items.map((unit) => <GroupEntry group={unit} changeGroup={changeGroup} />);
+    return groupList.map((group) => {
+      const groupData = _.filter(data, { groupId: group.id });
+      return <GroupEntry group={group} groupData={groupData} changeGroup={changeGroup} />;
+    });
   }
 
   render() {

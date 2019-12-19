@@ -8,99 +8,70 @@ import DockBar from './DockBar/DockBar';
 import Panel from './Panel/Panel';
 import Viewer from './Viewer/Viewer';
 
+import { TodoEntry } from '../scheme/scheme';
 import type { GroupList, PanelType, SelectedGroup } from '../scheme/scheme';
 
 interface States {
   panel: PanelType;
-  data: GroupList;
+  groupList: GroupList;
   selectedGroup?: SelectedGroup;
+  data: TodoEntry[];
 }
 class App extends React.Component<{}, States> {
   constructor() {
     super();
     this.state = {
-      panel: 'Todo',
+      panel: 'Group',
       selectedGroup: {
         id: 1,
-        groupName: 'asd',
-        items: [
-          {
-            id: 1,
-            text: '아무거나 하기',
-            status: 'active',
-            date: '123213',
-            deadline: 'asdasd',
-          },
-          {
-            id: 2,
-            text: '아무거나 하기',
-            status: 'completed',
-            date: '123213',
-            deadline: 'asdasd',
-          },
-          {
-            id: 3,
-            text: '아무거나 하기',
-            status: 'scheduled',
-            date: '123213',
-            deadline: 'asdasd',
-          },
-        ],
+        groupName: 'qwe',
       },
-      data: [
+      groupList: [
         {
           id: 0,
-          groupName: 'asd',
-          items: [
-            {
-              id: 1,
-              text: '아무것도 안하기',
-              status: 'active',
-              date: '123213',
-              deadline: 'asdasd',
-            },
-            {
-              id: 2,
-              text: '아무것도 안하기',
-              status: 'completed',
-              date: '123213',
-              deadline: 'asdasd',
-            },
-            {
-              id: 3,
-              text: '아무것도 안하기',
-              status: 'scheduled',
-              date: '123213',
-              deadline: 'asdasd',
-            },
-          ],
+          groupName: '미리 알림',
         },
         {
           id: 1,
           groupName: 'qwe',
-          items: [
-            {
-              id: 1,
-              text: '아무거나 하기',
-              status: 'active',
-              date: '123213',
-              deadline: 'asdasd',
-            },
-            {
-              id: 2,
-              text: '아무거나 하기',
-              status: 'completed',
-              date: '123213',
-              deadline: 'asdasd',
-            },
-            {
-              id: 3,
-              text: '아무거나 하기',
-              status: 'scheduled',
-              date: '123213',
-              deadline: 'asdasd',
-            },
-          ],
+        },
+      ],
+      data: [
+        {
+          id: 1,
+          groupId: 1,
+          text: '아무거나 하기',
+          status: 'active',
+          startDate: '123213',
+          deadline: 'asdasd',
+          timeStamp: 'asd',
+        },
+        {
+          id: 2,
+          groupId: 1,
+          text: '아무거나 하기싫어',
+          status: 'active',
+          startDate: '123213',
+          deadline: 'asdasd',
+          timeStamp: 'asd',
+        },
+        {
+          id: 3,
+          groupId: 0,
+          text: '아무거나 하기11',
+          status: 'active',
+          startDate: '123213',
+          deadline: 'asdasd',
+          timeStamp: 'asd',
+        },
+        {
+          id: 4,
+          groupId: 0,
+          text: '아무거나 하기싫어11',
+          status: 'active',
+          startDate: '123213',
+          deadline: 'asdasd',
+          timeStamp: 'asd',
         },
       ],
     };
@@ -116,17 +87,17 @@ class App extends React.Component<{}, States> {
   }
 
   changeGroup(id: number) {
-    const { data } = this.state;
+    const { groupList } = this.state;
     this.setState({
-      selectedGroup: data[id],
+      selectedGroup: groupList[id],
     });
   }
 
   renderPanel() {
-    const { panel, data, selectedGroup } = this.state;
+    const {
+      panel, groupList, selectedGroup, data,
+    } = this.state;
     switch (panel) {
-      case 'Empty':
-        return <Viewer selectedGroup={selectedGroup} />;
       default:
         return (
           <SplitPane
@@ -134,8 +105,17 @@ class App extends React.Component<{}, States> {
             split="vertical"
             defaultSize={250}
           >
-            <Panel panel={panel} data={data} changeGroup={(id) => this.changeGroup(id)} />
-            <Viewer selectedGroup={selectedGroup} />
+            <Panel panel={panel} groupList={groupList} data={data} changeGroup={(id) => this.changeGroup(id)} />
+            <Viewer selectedGroup={selectedGroup} data={data} />
+          </SplitPane>
+        );
+      case 'Empty':
+        return (
+          <SplitPane
+            pane1Style={{ width: '100%' }}
+            split="vertical"
+          >
+            <Viewer selectedGroup={selectedGroup} data={data} />
           </SplitPane>
         );
     }
@@ -144,7 +124,7 @@ class App extends React.Component<{}, States> {
   render() {
     return (
       <div style={{ color: '#ffffff' }}>
-        <DockBar />
+        <DockBar onClick={(panel: any) => this.changePanel(panel)} />
         <div
           style={{
             position: 'absolute', left: '48px', right: '0px', top: '0px', bottom: '0px',

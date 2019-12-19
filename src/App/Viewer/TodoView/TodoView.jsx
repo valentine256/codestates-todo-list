@@ -37,7 +37,7 @@ class TodoView extends React.Component<Props, State> {
     const { inputMode, inputText } = this.state;
 
     if (inputMode) {
-      return <InputSet value={inputText} onChange={(value) => this.handleTextChange(value)}/>;
+      return <InputSet value={inputText} onChange={(value) => this.handleTextChange(value)} />;
     }
   }
 

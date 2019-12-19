@@ -2,11 +2,13 @@
 
 import React from 'react';
 
+import UnitIcon from './UnitIcon/UnitIcon';
 import style from './DockBar.css';
 
 type State = {
 }
 type Props = {
+  onClick: (panel: string) => void;
 }
 
 class DockBar extends React.Component<Props, State> {
@@ -17,7 +19,13 @@ class DockBar extends React.Component<Props, State> {
   }
 
   render() {
-    return <div className={style['dock-bar']} />;
+    const { onClick } = this.props;
+    return (
+      <div className={style['dock-bar']}>
+        <UnitIcon iconName="SearchAndApps" onClick={() => onClick('Group')} />
+        <UnitIcon iconName="DateTime" onClick={() => onClick('Calendar')} />
+      </div>
+    );
   }
 }
 
