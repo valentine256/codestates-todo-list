@@ -18,7 +18,7 @@ class ViewerTitle extends React.Component<Props, State> {
   render() {
     const { name } = this.props;
     return (
-      <span style={{ margin: '0px', fontSize: '70px' }}>
+      <span style={{ margin: '0px', fontSize: '70px', position: 'fixed' }}>
         {name}
       </span>
     );

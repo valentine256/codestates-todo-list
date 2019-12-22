@@ -14,6 +14,8 @@ type Props = {
   group: Group;
   groupData: TodoEntry[];
   changeGroup: (id: number) => void;
+  renameGroup: (id: number, name: string) => void;
+  deleteGroup: (id:number) => void;
 }
 
 class GroupEntry extends React.Component<Props, State> {
@@ -24,10 +26,18 @@ class GroupEntry extends React.Component<Props, State> {
   }
 
   render() {
-    const { group, groupData, changeGroup } = this.props;
+    const {
+      group, groupData, changeGroup, deleteGroup, renameGroup,
+    } = this.props;
     return (
       <div>
-        <GroupTitle groupName={group.groupName} changeGroup={() => changeGroup(group.id)} />
+        <GroupTitle
+          groupId={group.id}
+          groupName={group.groupName}
+          changeGroup={() => changeGroup(group.id)}
+          deleteGroup={() => deleteGroup(group.id)}
+          renameGroup={(name) => renameGroup(group.id, name)}
+        />
         <TodoList list={groupData} />
       </div>
     );

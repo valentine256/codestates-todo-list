@@ -8,6 +8,8 @@ import style from './SearchTool.css';
 type State = {
 }
 type Props = {
+  searchText: string;
+  onSearch: (text: string) => void;
 }
 
 class SearchTool extends React.Component<Props, State> {
@@ -18,14 +20,16 @@ class SearchTool extends React.Component<Props, State> {
   }
 
   render() {
+    const { searchText, onSearch } = this.props;
     return (
       <SearchBox
         className={style['search-box']}
         placeholder="Search"
-        onSearch={(newValue) => console.log(`value is ${newValue}`)}
+        onSearch={(newValue) => onSearch(newValue)}
         onFocus={() => console.log('onFocus called')}
-        onBlur={() => console.log('onBlur called')}
+        onBlur={(e) => onSearch(e.target.value)}
         onChange={() => console.log('onChange called')}
+        value={searchText}
       />
     );
   }

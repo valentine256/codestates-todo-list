@@ -7,9 +7,9 @@ export interface TodoEntry {
   text: string;
   status: boolean;
   scheduled: boolean;
-  startDate?: string;
-  deadline?: string;
-  timeStamp?: Date;
+  startDate?: Date;
+  deadline?: Date;
+  timeStamp: Date;
 }
 
 export interface Group {

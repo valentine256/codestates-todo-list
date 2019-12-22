@@ -42,9 +42,10 @@ class InputSet
       const { submitInput } = this.props;
       const { status, text } = this.state;
       console.log(text);
-
-      submitInput(status, text);
-      this.setState({ status: false, text: '' });
+      if (text.length > 0) {
+        submitInput(status, text);
+        this.setState({ status: false, text: '' });
+      }
     }
   }
 

@@ -76,7 +76,13 @@ class TodoView extends React.Component<Props, State> {
 
   render() {
     return (
-      <div id="todoviewer" onClick={(event) => this.handleClick(event)} onKeyDown={(event) => this.handleKeyDown(event)} style={{ height: '100%' }}>
+      <div
+        id="todoviewer"
+        style={{height: '85%', overflowY: 'auto', marginTop: '100px'}}
+        onClick={(event) => this.handleClick(event)}
+        onKeyDown={(event) => this.handleKeyDown(event)}
+        onMouseLeave={() => this.setState({inputMode: false})}
+      >
         {this.todoRender()}
         {this.inputRender()}
       </div>
