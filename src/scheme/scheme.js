@@ -5,10 +5,11 @@ export interface TodoEntry {
   id: number;
   groupId: number;
   text: string;
-  status: 'active' | 'scheduled' | 'completed';
+  status: boolean;
+  scheduled: boolean;
   startDate?: string;
   deadline?: string;
-  timeStamp: string;
+  timeStamp?: Date;
 }
 
 export interface Group {

@@ -25,7 +25,7 @@ class GroupListViewer extends React.Component<Props, State> {
 
     return groupList.map((group) => {
       const groupData = _.filter(data, { groupId: group.id });
-      return <GroupEntry group={group} groupData={groupData} changeGroup={changeGroup} />;
+      return <GroupEntry key={group.id} group={group} groupData={groupData} changeGroup={changeGroup} />;
     });
   }
 

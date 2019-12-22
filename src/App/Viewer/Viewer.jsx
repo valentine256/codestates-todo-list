@@ -15,6 +15,9 @@ type State = {
 type Props = {
   selectedGroup: SelectedGroup | void;
   data: TodoEntry[];
+  nextTotoId: number;
+  submitInput: (status: boolean, text: string) => void;
+  modifyTodo: (id: number, status: boolean, text: string) => void;
 }
 
 class Viewer extends React.Component<Props, State> {
@@ -25,12 +28,14 @@ class Viewer extends React.Component<Props, State> {
   }
 
   render() {
-    const { selectedGroup, data } = this.props;
+    const {
+      selectedGroup, data, submitInput, nextTotoId, modifyTodo,
+    } = this.props;
     const items = _.filter(data, { groupId: selectedGroup.id });
     return (
       <div className={style['viewer-div']}>
         <ViewerTitle name={selectedGroup.groupName} />
-        <TodoView items={items} />
+        <TodoView items={items} submitInput={submitInput} modifyTodo={modifyTodo} nextTotoId={nextTotoId} selectedGroupId={selectedGroup.id} />
       </div>
     );
   }

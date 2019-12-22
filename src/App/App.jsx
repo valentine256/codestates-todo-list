@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-// @flow
 
 import React from 'react';
+import _ from 'lodash';
 import SplitPane from 'react-split-pane';
 
 import DockBar from './DockBar/DockBar';
@@ -14,17 +14,19 @@ import type { GroupList, PanelType, SelectedGroup } from '../scheme/scheme';
 interface States {
   panel: PanelType;
   groupList: GroupList;
-  selectedGroup?: SelectedGroup;
+  selectedGroup: SelectedGroup;
   data: TodoEntry[];
+  nextTodoId: number;
 }
 class App extends React.Component<{}, States> {
   constructor() {
     super();
     this.state = {
+      nextTodoId: 4,
       panel: 'Group',
       selectedGroup: {
-        id: 1,
-        groupName: 'qwe',
+        id: 0,
+        groupName: '미리 알림',
       },
       groupList: [
         {
@@ -38,43 +40,70 @@ class App extends React.Component<{}, States> {
       ],
       data: [
         {
-          id: 1,
+          id: 0,
           groupId: 1,
           text: '아무거나 하기',
-          status: 'active',
+          status: false,
+          scheduled: false,
           startDate: '123213',
           deadline: 'asdasd',
-          timeStamp: 'asd',
+        },
+        {
+          id: 1,
+          groupId: 1,
+          text: '아무거나 하기싫어',
+          status: true,
+          scheduled: false,
+          startDate: '123213',
+          deadline: 'asdasd',
         },
         {
           id: 2,
-          groupId: 1,
-          text: '아무거나 하기싫어',
-          status: 'active',
+          groupId: 0,
+          text: '아무거나 하기11',
+          status: false,
+          scheduled: false,
           startDate: '123213',
           deadline: 'asdasd',
-          timeStamp: 'asd',
         },
         {
           id: 3,
           groupId: 0,
-          text: '아무거나 하기11',
-          status: 'active',
-          startDate: '123213',
-          deadline: 'asdasd',
-          timeStamp: 'asd',
-        },
-        {
-          id: 4,
-          groupId: 0,
           text: '아무거나 하기싫어11',
-          status: 'active',
+          status: true,
+          scheduled: false,
           startDate: '123213',
           deadline: 'asdasd',
-          timeStamp: 'asd',
         },
       ],
     };
+  }
+
+  createTodo(status, text): void {
+    const { nextTodoId, selectedGroup } = this.state;
+    const item = {
+      id: nextTodoId,
+      groupId: selectedGroup.id,
+      text,
+      status,
+      timeStamp: new Date(),
+    };
+
+    this.setState((state) => {
+      const nextData = [...state.data, item];
+      return { data: nextData, nextTodoId: nextTodoId + 1 };
+    });
+  }
+
+
+  modifyTodo(id, status, text) {
+    const { data } = this.state;
+    const index = _.findIndex(data, { id });
+
+    const nextData = data.slice();
+    nextData[index].status = status;
+    nextData[index].text = text;
+    this.setState({ data: nextData });
   }
 
   changePanel(item: PanelType): void {
@@ -93,9 +122,17 @@ class App extends React.Component<{}, States> {
     });
   }
 
+  handleSubmit(status, text) {
+    this.createTodo(status, text);
+  }
+
+  handleModify(id, status, text) {
+    this.modifyTodo(id, status, text);
+  }
+
   renderPanel() {
     const {
-      panel, groupList, selectedGroup, data,
+      panel, groupList, selectedGroup, data, nextTodoId,
     } = this.state;
     switch (panel) {
       default:
@@ -106,17 +143,17 @@ class App extends React.Component<{}, States> {
             defaultSize={250}
           >
             <Panel panel={panel} groupList={groupList} data={data} changeGroup={(id) => this.changeGroup(id)} />
-            <Viewer selectedGroup={selectedGroup} data={data} />
+            <Viewer selectedGroup={selectedGroup} data={data} nextTodoId={nextTodoId} modifyTodo={(id, status, text) => this.handleModify(id, status, text)} submitInput={(status, text) => this.handleSubmit(status, text)} />
           </SplitPane>
         );
       case 'Empty':
         return (
-          <SplitPane
-            pane1Style={{ width: '100%' }}
-            split="vertical"
-          >
-            <Viewer selectedGroup={selectedGroup} data={data} />
-          </SplitPane>
+        // <SplitPane
+        //   pane1Style={{ width: '100%' }}
+        //   split="vertical"
+        // >
+          <Viewer selectedGroup={selectedGroup} data={data} nextTodoId={nextTodoId} modifyTodo={(id, status, text) => this.handleModify(id, status, text)} submitInput={(status, text) => this.handleSubmit(status, text)} />
+        // </SplitPane>
         );
     }
   }
@@ -130,7 +167,10 @@ class App extends React.Component<{}, States> {
             position: 'absolute', left: '48px', right: '0px', top: '0px', bottom: '0px',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          <div style={{
+            position: 'relative', width: '100%', height: '100%', overflow: 'hidden',
+          }}
+          >
             {this.renderPanel()}
           </div>
         </div>

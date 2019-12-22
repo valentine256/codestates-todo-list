@@ -19,7 +19,7 @@ class TodoList extends React.Component<Props, State> {
 
   renderEntry() {
     const { list } = this.props;
-    return list.map((item) => <ListEntry item={item} />);
+    return list.map((item) => <ListEntry key={item.id} item={item} />);
   }
 
   render() {

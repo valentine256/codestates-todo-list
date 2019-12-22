@@ -7,10 +7,13 @@ import InputSet from './InputSet/InputSet';
 import { TodoEntry } from '../../../scheme/scheme';
 
 type State = {
-  inputText: ''
+  inputMode: boolean
 }
 type Props = {
- items: TodoEntry[]
+ items: TodoEntry[];
+ selectedGroupId: number;
+ submitInput: (status: boolean, text: string) => void;
+ modifyTodo: (id: number, status: boolean, text: string) => void;
 }
 
 class TodoView extends React.Component<Props, State> {
@@ -19,41 +22,61 @@ class TodoView extends React.Component<Props, State> {
 
     this.state = {
       inputMode: false,
-      inputText: '',
     };
   }
 
   todoRender() {
-    const { items } = this.props;
+    const { items, modifyTodo } = this.props;
 
-    return items.map((item) => <TodoEntryRender item={item} />);
-  }
-
-  handleTextChange(value) {
-    this.setState({ inputText: value });
+    return items.map((item) => <TodoEntryRender key={item.id} submitInput={(status, text) => modifyTodo(item.id, status, text)} item={item} />);
   }
 
   inputRender() {
-    const { inputMode, inputText } = this.state;
-
+    const { inputMode } = this.state;
+    const { submitInput, selectedGroupId } = this.props;
+    const item = {
+      groupId: selectedGroupId,
+      text: '',
+      state: false,
+      scheduled: false,
+    };
     if (inputMode) {
-      return <InputSet value={inputText} onChange={(value) => this.handleTextChange(value)} />;
+      return <InputSet key="input" submitInput={submitInput} item={item} />;
     }
   }
 
-  handleInput() {
+  handleClick(event) {
+    if (event.target.id !== 'todoviewer') {
+      return;
+    }
     const { inputMode } = this.state;
-
     if (!inputMode) {
       this.setState({
         inputMode: true,
       });
+    } else {
+      this.setState({
+        inputMode: false,
+      });
+    }
+  }
+
+  handleKeyDown(event) {
+    const { key } = event;
+    if (key === 'Escape') {
+      console.log('hoho!!');
+    }
+    switch (key) {
+      default:
+        return;
+      case 'Escape':
+        this.setState({ inputMode: false });
     }
   }
 
   render() {
     return (
-      <div onClick={() => this.handleInput()} style={{ height: '100%' }}>
+      <div id="todoviewer" onClick={(event) => this.handleClick(event)} onKeyDown={(event) => this.handleKeyDown(event)} style={{ height: '100%' }}>
         {this.todoRender()}
         {this.inputRender()}
       </div>
